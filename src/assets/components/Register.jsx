@@ -27,49 +27,60 @@ const Register = () => {
         e.preventDefault();
         setError('');
     
-        // Validación básica de edad
+        // Validaciones
+        if (!formData.name.trim() || !formData.email.trim() || !formData.password.trim()) {
+            setError("Todos los campos son obligatorios");
+            return;
+        }
+
         if (parseInt(formData.age) < 18) {
             setError("Debes ser mayor de 18 años para registrarte");
             return;
         }
     
-        // Validación básica de teléfono
         const phoneRegex = /^\+?56\s?9\s?\d{8}$/;
         if (!phoneRegex.test(formData.phone)) {
             setError("El formato del teléfono debe ser +56 9 XXXXXXXX");
             return;
         }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            setError("Por favor ingresa un email válido");
+            return;
+        }
     
-        // Formatear los datos para coincidir con la base de datos
         const formattedData = {
-            username: formData.name,  // Cambiado 'name' → 'username'
-            email: formData.email,
+            username: formData.name.trim(),
+            email: formData.email.toLowerCase().trim(),
             password: formData.password,
-            direccion: formData.address,  // Cambiado 'address' → 'direccion'
-            telefono: formData.phone,  // Cambiado 'phone' → 'telefono'
-            edad: parseInt(formData.age), // Aseguramos que la edad sea un número
-            rol: "user" // Se asume un rol por defecto
+            direccion: formData.address.trim(),
+            telefono: formData.phone.trim(),
+            edad: parseInt(formData.age),
+            rol: "user"
         };
     
         try {
-            const response = await fetch("https://beer-chile-api.onrender.com/register", {
+            const response = await fetch("https://backendtest-8l3s.onrender.com/register", {
                 method: "POST",
                 headers: { 
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
                 },
                 body: JSON.stringify(formattedData)
             });
     
+            const data = await response.json();
+
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Error en el registro");
+                throw new Error(data.message || "Error en el registro");
             }
     
-            const data = await response.json();
             alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
             navigate("/login");
         } catch (error) {
             setError(error.message || "Error en la conexión con el servidor");
+            console.error("Error durante el registro:", error);
         }
     };
 

@@ -1,0 +1,41 @@
+.bg-dark {
+    background-image: url("./vite-project/public/img/portada-kunstman-1600x1066.jpg");
+    height: 200px !important;
+    max-height: 200px !important;
+    overflow: hidden !important;
+}
+
+.header {
+    height: 60px; /* Reducido de 120px a 60px */
+}
+
+.navbar {
+    padding: 1rem;
+    min-height: 60px; /* Reducido de 120px a 60px */
+    height: 65px !important;
+    min-height: 65px !important;
+    padding: 0.5rem 1rem !important;
+}
+
+/* Ajustar el logo si es necesario */
+.navbar-brand img {
+    height: auto;
+    width: auto;
+    max-height: 45px;
+    height: 45px !important;
+    max-height: 45px !important;
+}
+
+.carousel-inner {
+    height: 200px !important; /* Altura fija para el carrusel */
+    max-height: 200px !important;
+}
+
+.carousel-item {
+    height: 200px !important;
+}
+
+.carousel-item img {
+    height: 200px !important;
+    object-fit: cover !important;
+}

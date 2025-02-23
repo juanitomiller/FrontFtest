@@ -1,0 +1,12 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Georgia", serif; /* Reemplazando "se" con una fuente serif común */
+  font-style: italic;
+}
+header {
+  background-image: url("./vite-project/public/img/portada-kunstman-1600x1066.jpg");
+}

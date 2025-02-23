@@ -1,0 +1,86 @@
+.plox {
+	 /* Ruta de la imagen */
+	background-size: cover; /* La imagen cubrirá todo el fondo */
+	background-position: center; /* Centra la imagen */
+ /* Evita que la imagen se repita */
+	min-height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
+	display: flex; /* Usa flexbox para centrar el formulario */
+	justify-content: center; /* Centra horizontalmente */
+	align-items: center; /* Centra verticalmente */
+	padding: 20px; /* Opcional: Espaciado interior */
+  }
+
+.plox::before {
+	content: '';
+	position: fixed;
+	background-size: cover; /* La imagen cubrirá todo el fondo */
+	background-position: center; /* Centra la imagen */
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: url('../../../public/img/Background\ login.jpg'); /* Hereda el fondo del contenedor */
+	filter: blur(10px); /* Ajusta el nivel de desenfoque */
+	z-index: -1; /* Coloca la capa detrás del contenido */
+  }
+
+.Logintext {
+	margin-top: 20px;
+	padding: 10px;
+    border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	background-color: rgb(241, 241, 241);
+}
+
+.form-label {
+    background-color: rgb(2, 2, 2);
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	color: #f1eded;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+	border: 1px solid #ebebeb;
+	opacity: 0.9;
+	font-size: 19px;
+	margin-top: 20px;
+	padding: 10px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+  }
+
+.btn {
+	padding: 10px;
+  }
+
+.login-form-container {
+	max-width: 40%;  /* Aumentado de 30% a 40% */
+	margin: 0 auto;  /* Centra el formulario horizontalmente */
+	min-width: 400px; /* Asegura un ancho mínimo en pantallas pequeñas */
+  }
+
+.container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 20px;
+}
+
+form {
+	background-color: rgba(34, 26, 26, 0.7); /* Cambiado: añadida transparencia */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 1000px;
+    backdrop-filter: blur(5px); /* Añadido: efecto de desenfoque para mejor legibilidad */
+}
+
+.btn-primary {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .login-form-container {
+    max-width: 90%; /* En móviles usará casi todo el ancho disponible */
+    min-width: auto; /* Permite que sea más pequeño en móviles */
+  }
+}
+

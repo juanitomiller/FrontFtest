@@ -1,0 +1,33 @@
+footer {
+    padding: 1rem 0;
+}
+
+.footer {
+    height: 65px !important;
+    min-height: 65px !important;
+    padding: 0.5rem 0 !important;
+}
+
+.footer-content {
+    height: 40px !important;
+    max-height: 40px !important;
+    padding: 5px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.footer-content * {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.py-5 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+
+.container p {
+    margin: 0;
+    line-height: 30px !important;
+    font-size: 0.9em !important;
+}

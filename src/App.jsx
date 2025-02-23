@@ -37,7 +37,8 @@ const App = () => {
         if (isAgeVerified) {
             const loadProducts = async () => {
                 try {
-                    const url = `${import.meta.env.VITE_API_URL}/productos`;
+                    //const url = `${import.meta.env.VITE_API_URL}/productos`;
+                    const url = `https://backendtest-8l3s.onrender.com/productos`;
                     const response = await fetch(url);
                     const data = await response.json();
                     setProducts(data);

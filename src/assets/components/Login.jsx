@@ -3,67 +3,6 @@ import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
-// export const Login = () => {
-//   const [error, setError] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const { setUser, setIsAuthenticated } = useUser();
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     if(!localStorage.getItem("user")) {
-//       const testUser = {
-//         email: "usuario@ejemplo.com",
-//         password: "123456"
-//       };
-//       localStorage.setItem("user", JSON.stringify(testUser));
-//     }
-//   }, []);
-
-//   const validarInput = (e) => {
-//     e.preventDefault();
-
-//     if (!email.trim() || !password.trim()) {
-//       setError("Todos los campos son obligatorios");
-//       return;
-//     }
-
-//     if (password.length < 6) {
-//       setError(
-//         "Recuerda que todas las contraseñas registradas tienen al menos 6 caracteres"
-//       );
-//       return;
-//     }
-
-//     // Obtener usuario almacenado en localStorage
-//     const storedUser = localStorage.getItem("user");
-      
-//     if (!storedUser) {
-//       setError("No hay usuario registrado.");
-//       return;
-//     }
-
-//     const parsedUser = JSON.parse(storedUser);
-
-//     // Validar credenciales
-//     if (parsedUser.email !== email || parsedUser.password !== password) {
-//       setError("Correo o contraseña incorrectos.");
-//       return; 
-//     }
-
-//     // Si las credenciales son correctas
-//     setUser(parsedUser);
-//       setIsAuthenticated(true);
-//       localStorage.setItem("isAuthenticated", "true");
-
-//     setError("");
-//     setEmail("");
-//     setPassword("");
-
-//     alert("Inicio de sesión completado exitosamente!");
-//     navigate("/profile");
-//   };
-
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -76,7 +15,7 @@ export const Login = () => {
       setError("");
 
       try {
-          const response = await fetch("https://beer-chile-api.onrender.com/login", {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ email, password })

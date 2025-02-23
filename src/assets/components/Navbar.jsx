@@ -18,7 +18,7 @@ const Navbar = ({ countProducts, total, allProducts, onDeleteProduct, onCleanCar
             <div className="container px-4 px-lg-5">
                 <Link className="navbar-brand text-white d-flex align-items-center" to="/">
                     <img 
-                        src="/img/pngwing.com.png" 
+                        src="img/pngwing.com.png" 
                         alt="Logo" 
                         style={{ 
                             height: '54px',  // Aumentado de 40px a 54px (35% más grande)

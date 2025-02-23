@@ -27,50 +27,39 @@ const Register = () => {
         e.preventDefault();
         setError('');
     
-        // Validaciones
-        if (!formData.name.trim() || !formData.email.trim() || !formData.password.trim()) {
-            setError("Todos los campos son obligatorios");
-            return;
-        }
-
-        if (parseInt(formData.age) < 18) {
-            setError("Debes ser mayor de 18 años para registrarte");
-            return;
-        }
-    
-        const phoneRegex = /^\+?56\s?9\s?\d{8}$/;
-        if (!phoneRegex.test(formData.phone)) {
-            setError("El formato del teléfono debe ser +56 9 XXXXXXXX");
-            return;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData.email)) {
-            setError("Por favor ingresa un email válido");
-            return;
-        }
+        // Log de datos antes de formatear
+        console.log('Datos del formulario:', formData);
     
         const formattedData = {
             username: formData.name.trim(),
             email: formData.email.toLowerCase().trim(),
             password: formData.password,
             direccion: formData.address.trim(),
-            telefono: formData.phone.trim(),
+            telefono: formData.phone.replace(/\s/g, ''), // Eliminar espacios del teléfono
             edad: parseInt(formData.age),
             rol: "user"
         };
+
+        // Log de datos formateados
+        console.log('Datos formateados:', formattedData);
     
         try {
+            console.log('Iniciando petición al servidor...');
             const response = await fetch("https://backendtest-8l3s.onrender.com/register", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",
-                    "Accept": "application/json"
+                    "Accept": "application/json",
+                    // Agregamos CORS headers
+                    "Access-Control-Allow-Origin": "*"
                 },
+                credentials: 'include', // Incluir cookies si es necesario
                 body: JSON.stringify(formattedData)
             });
     
+            console.log('Respuesta del servidor:', response.status);
             const data = await response.json();
+            console.log('Datos de respuesta:', data);
 
             if (!response.ok) {
                 throw new Error(data.message || "Error en el registro");
@@ -79,8 +68,8 @@ const Register = () => {
             alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
             navigate("/login");
         } catch (error) {
+            console.error("Error completo:", error);
             setError(error.message || "Error en la conexión con el servidor");
-            console.error("Error durante el registro:", error);
         }
     };
 

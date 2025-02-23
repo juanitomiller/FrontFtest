@@ -19,7 +19,8 @@ const App = () => {
     const [products, setProducts] = useState([]);
 
     const consultarApi = async () => {
-        const url = "https://beer-chile-api.onrender.com/productos";
+        //const url = "https://beer-chile-api.onrender.com/productos";
+        const url = "http://localhost:3000/productos";
         const response = await fetch(url);
         const data = await response.json();
         console.log("ejecutada consulta a productos", data)

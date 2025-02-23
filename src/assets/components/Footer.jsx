@@ -1,10 +1,37 @@
 import React from 'react';
+import '../styles/Footer.css';
 
 const Footer = () => {
     return (
-        <footer className="py-5 bg-dark">
+        <footer className="py-4 bg-dark">
             <div className="container">
-                <p className="m-0 text-center text-white">Copyright &copy; Your Website 2025 - Proyecto Final DSL "Los Pitiaos"</p>
+                <div className="row align-items-center">
+                    <div className="col-md-6">
+                        <p className="m-0 text-white">Copyright &copy; Los Pitiaos 2025</p>
+                    </div>
+                    <div className="col-md-6 text-end">
+                        <div className="social-icons">
+                            <a href="https://www.facebook.com" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               className="social-link">
+                                <i className="fab fa-facebook-f fa-2x text-white"></i>
+                            </a>
+                            <a href="https://wa.me/+56912345678" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               className="social-link">
+                                <i className="fab fa-whatsapp fa-2x text-white"></i>
+                            </a>
+                            <a href="https://www.instagram.com" 
+                               target="_blank" 
+                               rel="noopener noreferrer"
+                               className="social-link">
+                                <i className="fab fa-instagram fa-2x text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </footer>
     );

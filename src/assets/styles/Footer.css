@@ -1,0 +1,58 @@
+.social-icon {
+    color: white;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    padding: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.social-icon:hover {
+    color: #ffc107;
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.social-icons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 35px;  /* Aumentado el espacio entre íconos */
+    margin: 0;
+    padding: 0;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;    /* Aumentado el tamaño del contenedor */
+    height: 50px;   /* Aumentado el tamaño del contenedor */
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    margin: 0 5px;  /* Agregado margen adicional */
+}
+
+.social-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+.social-link i {
+    font-size: 25px;  /* Aumentado el tamaño del ícono */
+}
+
+@media (max-width: 768px) {
+    .social-icons {
+        justify-content: center;
+        margin-top: 15px;
+    }
+    
+    footer .row > div {
+        text-align: center;
+    }
+    
+    .text-end {
+        text-align: center !important;
+    }
+}

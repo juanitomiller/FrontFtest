@@ -11,7 +11,7 @@ const Footer = () => {
                     </div>
                     <div className="col-md-4 text-center d-flex flex-column align-items-center">
                         <img 
-                            src="../public/img/pngwing.com.png" 
+                            src="img/pngwing.com.png" 
                             alt="Logo" 
                             style={{ 
                                 height: '54px',

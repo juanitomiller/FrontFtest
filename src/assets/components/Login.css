@@ -19,7 +19,7 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-image: url('../../../public/img/Background\ login.jpg'); /* Hereda el fondo del contenedor */
+	background-image: url('/public/img/Background\ login.jpg'); /* Hereda el fondo del contenedor */
 	filter: blur(10px); /* Ajusta el nivel de desenfoque */
 	z-index: -1; /* Coloca la capa detrás del contenido */
   }

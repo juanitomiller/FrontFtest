@@ -11,25 +11,52 @@ import ProductGalery from './assets/components/ProductGalery';
 import { ProductCard } from './assets/components/ProductCard'; // Cambiado: eliminado los corchetes
 import ProductDetail from './assets/components/ProductDetail'; // Asegúrate de importar ProductDetail
 import Profile from "./assets/components/Profile";
+import AgeVerification from './assets/components/AgeVerification';  // Corregida la ruta de importación
+import Newsletter from './assets/components/Newsletter';
 
 const App = () => {
+    // Mover isAgeVerified al principio y simplificar
+    const [isAgeVerified, setIsAgeVerified] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [allProducts, setAllProducts] = useState([]);
     const [countProducts, setCountProducts] = useState(0);
     const [total, setTotal] = useState(0);
     const [products, setProducts] = useState([]);
 
-    const consultarApi = async () => {
-        //const url = "https://beer-chile-api.onrender.com/productos";
-        const url = "http://localhost:3000/productos";
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log("ejecutada consulta a productos", data)
-        setProducts(data);
-      };
-    
-      useEffect(() => {
-        consultarApi();
-      }, []);
+    // Separar la verificación de edad y la carga de productos
+    useEffect(() => {
+        const verified = localStorage.getItem('ageVerified');
+        if (verified === 'true') {
+            setIsAgeVerified(true);
+        }
+        setIsLoading(false);
+    }, []);
+
+    // Cargar productos solo después de verificar la edad
+    useEffect(() => {
+        if (isAgeVerified) {
+            const loadProducts = async () => {
+                try {
+                    const url = "http://localhost:3000/productos";
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    setProducts(data);
+                } catch (error) {
+                    console.error("Error loading products:", error);
+                }
+            };
+            loadProducts();
+        }
+    }, [isAgeVerified]);
+
+    const handleAgeVerification = (verified) => {
+        if (verified) {
+            setIsAgeVerified(true);
+            localStorage.setItem('ageVerified', 'true');
+        } else {
+            window.location.href = 'https://www.google.cl';
+        }
+    };
 
     const calculateTotal = (products) => {
         return products.reduce((sum, product) => sum + (product.price * product.quantity), 0);
@@ -76,6 +103,17 @@ const App = () => {
     // Seleccionar solo los primeros 4 productos para el Home
     const featuredProducts = products.slice(0, 4);
 
+    // Mostrar pantalla de carga mientras se verifica el localStorage
+    if (isLoading) {
+        return <div>Cargando...</div>;
+    }
+
+    // Mostrar verificación de edad si no está verificado
+    if (!isAgeVerified) {
+        return <AgeVerification onVerify={handleAgeVerification} />;
+    }
+
+    // 5. Render principal
     return (
         <UserProvider> {/* Asegúrate de envolver todo el contenido dentro de UserProvider */}
             <div>
@@ -133,6 +171,7 @@ const App = () => {
                         <Route path="/profile" element={<Profile />} />
                     </Routes>
                 </div>
+                <Newsletter />  {/* Agregar el componente Newsletter aquí */}
                 <Footer />
             </div>
         </UserProvider>

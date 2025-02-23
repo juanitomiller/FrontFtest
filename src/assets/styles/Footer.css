@@ -16,7 +16,7 @@
 .social-icons {
     display: flex;
     justify-content: flex-end;
-    gap: 35px;  /* Aumentado el espacio entre íconos */
+    gap: 35px;
     margin: 0;
     padding: 0;
 }
@@ -25,21 +25,71 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 50px;    /* Aumentado el tamaño del contenedor */
-    height: 50px;   /* Aumentado el tamaño del contenedor */
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
-    margin: 0 5px;  /* Agregado margen adicional */
+    margin: 0 5px;
+    color: white;
+    text-decoration: none;  /* Agregar esta línea para quitar el subrayado */
 }
 
 .social-link:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-3px);
+    color: #ffc107;
+    text-decoration: none;  /* Mantener sin subrayado en hover */
 }
 
 .social-link i {
-    font-size: 25px;  /* Aumentado el tamaño del ícono */
+    font-size: 25px;
+}
+
+.footer-container {
+    padding: 40px 0 20px;
+}
+
+.footer-title {
+    color: #ffc107;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.footer-text {
+    color: #999;
+    line-height: 1.6;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: #999;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #ffc107;
+    padding-left: 5px;
+}
+
+.contact-info p {
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.contact-info i {
+    color: #ffc107;
+    width: 20px;
 }
 
 @media (max-width: 768px) {
@@ -50,9 +100,22 @@
     
     footer .row > div {
         text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    footer .row > div:last-child {
+        margin-bottom: 0;
     }
     
     .text-end {
         text-align: center !important;
+    }
+    
+    .footer-container {
+        text-align: center;
+    }
+    
+    .contact-info {
+        margin-bottom: 20px;
     }
 }

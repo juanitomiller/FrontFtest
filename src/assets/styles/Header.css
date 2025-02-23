@@ -1,0 +1,48 @@
+.header-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+}
+
+.header-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: #fff;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6),
+                 -2px -2px 8px rgba(255, 193, 7, 0.3);
+    letter-spacing: 4px;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6),
+                     -2px -2px 8px rgba(255, 193, 7, 0.3);
+    }
+    to {
+        text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.8),
+                     -2px -2px 12px rgba(255, 193, 7, 0.5);
+    }
+}
+
+.header-subtitle {
+    font-size: 1.5rem;
+    color: #ffc107;
+    margin-top: 10px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+    .header-text {
+        font-size: 3rem;
+    }
+    .header-subtitle {
+        font-size: 1.2rem;
+    }
+}

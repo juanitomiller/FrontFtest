@@ -45,7 +45,7 @@ const Register = () => {
     
         try {
             console.log('Iniciando petición al servidor...');
-            const response = await fetch("https://backendtest-8l3s.onrender.com/register", {
+            const response = await fetch("https://backendtest-8l3s.onrender.com/users", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",

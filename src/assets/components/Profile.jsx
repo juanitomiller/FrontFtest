@@ -13,7 +13,7 @@ const Profile = () => {
     useEffect(() => {
         if (isAuthenticated) {
             setLoading(true);
-            fetch("https://beer-chile-api.onrender.com/profile", {
+            fetch("https://backendtest-8l3s.onrender.com/usuario", {
                 headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
             })
             .then(res => {
@@ -35,7 +35,7 @@ const Profile = () => {
     const handleEdit = async () => {
         if (isEditing) {
             try {
-                const response = await fetch("https://beer-chile-api.onrender.com/profile", {
+                const response = await fetch("https://backendtest-8l3s.onrender.com/usuario", {
                     method: "PUT",
                     headers: { 
                         "Authorization": `Bearer ${localStorage.getItem("token")}`,

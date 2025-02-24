@@ -37,11 +37,11 @@ const Profile = () => {
 
                 // Asegurar que los nombres de los campos coincidan
                 setUserData({
-                    name: data.username || data.name,
+                    username: data.username || data.name,
                     email: data.email,
-                    age: data.edad || data.age,
-                    address: data.direccion || data.address,
-                    phone: data.telefono || data.phone,
+                    edad: data.edad || data.age,
+                    direccion: data.direccion || data.address,
+                    telefono: data.telefono || data.phone,
                     rol: data.rol
                 });
             } catch (error) {

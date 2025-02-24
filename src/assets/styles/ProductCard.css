@@ -1,0 +1,27 @@
+.product-card {
+    border: 2px solid #ff5722; /* Cambiar el color del borde */
+    border-radius: 12px; /* Aumentar el radio del borde */
+    padding: 20px; /* Aumentar el padding */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.product-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumentar la sombra */
+    transform: translateY(-5px); /* Aumentar el desplazamiento */
+}
+
+.product-card img {
+    max-width: 100%;
+    border-radius: 12px; /* Aumentar el radio del borde de la imagen */
+}
+
+.product-card-title {
+    font-size: 1.4em; /* Aumentar el tamaño de la fuente */
+    margin: 10px 0;
+    color: #ff5722; /* Cambiar el color del texto */
+}
+
+.product-card-price {
+    font-size: 1.1em; /* Aumentar el tamaño de la fuente */
+    color: #ff9800; /* Cambiar el color del texto */
+}

@@ -12,7 +12,7 @@ const Newsletter = () => {
         setMessage({ type: '', text: '' });
 
         try {
-            const response = await fetch('http://localhost:3000/newsletter', {  // Cambiado de /newsletters a /newsletter
+            const response = await fetch('https://backendtest-8l3s.onrender.com/newsletter', {  // Cambiado de /newsletters a /newsletter
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

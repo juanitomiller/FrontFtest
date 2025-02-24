@@ -15,7 +15,7 @@ export const Login = () => {
       setError("");
 
       try {
-          const response = await fetch("https://backendtest-8l3s.onrender.com", {
+          const response = await fetch("https://backendtest-8l3s.onrender.com/users", {
               method: "POST",
               headers: { 
                   "Content-Type": "application/json"

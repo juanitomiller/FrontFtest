@@ -27,33 +27,24 @@ const Register = () => {
         e.preventDefault();
         setError('');
     
-        // Log de datos antes de formatear
-        console.log('Datos del formulario:', formData);
-    
         const formattedData = {
             username: formData.name.trim(),
             email: formData.email.toLowerCase().trim(),
             password: formData.password,
             direccion: formData.address.trim(),
-            telefono: formData.phone.replace(/\s/g, ''), // Eliminar espacios del teléfono
+            telefono: formData.phone.replace(/\s/g, ''),
             edad: parseInt(formData.age),
             rol: "user"
         };
-
-        // Log de datos formateados
-        console.log('Datos formateados:', formattedData);
     
         try {
-            console.log('Iniciando petición al servidor...');
             const response = await fetch("https://backendtest-8l3s.onrender.com/users", {
                 method: "POST",
                 headers: { 
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                    // Agregamos CORS headers
-                    "Access-Control-Allow-Origin": "*"
+                    "Content-Type": "application/json"
                 },
-                credentials: 'include', // Incluir cookies si es necesario
+                mode: 'cors',
+                credentials: 'omit',
                 body: JSON.stringify(formattedData)
             });
     
@@ -69,7 +60,7 @@ const Register = () => {
             navigate("/login");
         } catch (error) {
             console.error("Error completo:", error);
-            setError(error.message || "Error en la conexión con el servidor");
+            setError("Error al conectar con el servidor. Por favor, intenta más tarde.");
         }
     };
 

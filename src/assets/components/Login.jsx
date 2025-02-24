@@ -14,28 +14,48 @@ export const Login = () => {
       e.preventDefault();
       setError("");
 
+      // Log para debug
+      console.log('Intentando login con:', { email, password });
+
       try {
-          const response = await fetch("https://backendtest-8l3s.onrender.com/users", {
+          const response = await fetch("https://backendtest-8l3s.onrender.com/users/login", {
               method: "POST",
               headers: { 
                   "Content-Type": "application/json"
               },
               mode: 'cors',
               credentials: 'omit',
-              body: JSON.stringify({ email, password })
+              body: JSON.stringify({
+                  email: email.toLowerCase().trim(),
+                  password: password.trim()
+              })
           });
 
+          console.log('Status de respuesta:', response.status);
           const data = await response.json();
+          console.log('Datos de respuesta:', data);
 
           if (!response.ok) {
-              throw new Error(data.message || "Error al iniciar sesión");
+              throw new Error(data.message || "Usuario o contraseña incorrectos");
           }
 
-          // Guardar el token y actualizar el contexto
-          login(data.user, data.token);
-          navigate("/profile");
+          // Verificar la estructura de la respuesta
+          if (data.usuario && data.token) {  // Cambiado de data.user a data.usuario
+              login(data.usuario, data.token);
+              localStorage.setItem('token', data.token);
+              
+              // Redireccionar según el rol
+              if (data.usuario.rol === 'admin') {
+                  navigate("/admin");
+              } else {
+                  navigate("/profile");
+              }
+          } else {
+              throw new Error("Formato de respuesta inválido");
+          }
       } catch (error) {
-          setError("Error al conectar con el servidor. Por favor, intenta más tarde.");
+          console.error('Error detallado:', error);
+          setError(error.message || "Error al iniciar sesión. Por favor, verifica tus credenciales.");
       }
   };
 

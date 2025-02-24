@@ -35,14 +35,14 @@ const Profile = () => {
                 const data = await response.json();
                 console.log("Datos recibidos:", data);
 
-                // Asegurar que los nombres de los campos coincidan
+                // Mapear los datos correctamente
                 setUserData({
-                    username: data.username || data.name,
-                    email: data.email,
-                    edad: data.edad || data.age,
-                    direccion: data.direccion || data.address,
-                    telefono: data.telefono || data.phone,
-                    rol: data.rol
+                    username: data.username || '',      // nombre de usuario
+                    email: data.email || '',           // correo electrónico
+                    edad: data.edad || '',             // edad
+                    direccion: data.direccion || '',   // dirección
+                    telefono: data.telefono || '',     // teléfono
+                    rol: data.rol || ''                // rol
                 });
             } catch (error) {
                 console.error("Error fetching profile:", error);
@@ -123,11 +123,11 @@ const Profile = () => {
                                     <input
                                         type="text"
                                         className="form-control"
-                                        value={userData.name}
-                                        onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+                                        value={userData.username}
+                                        onChange={(e) => setUserData({ ...userData, username: e.target.value })}
                                     />
                                 ) : (
-                                    <p className="form-control-plaintext">{userData.name}</p>
+                                    <p className="form-control-plaintext">{userData.username}</p>
                                 )}
                             </div>
                             <div className="mb-3">
@@ -140,11 +140,11 @@ const Profile = () => {
                                     <input
                                         type="number"
                                         className="form-control"
-                                        value={userData.age}
-                                        onChange={(e) => setUserData({ ...userData, age: e.target.value })}
+                                        value={userData.edad}
+                                        onChange={(e) => setUserData({ ...userData, edad: e.target.value })}
                                     />
                                 ) : (
-                                    <p className="form-control-plaintext">{userData.age}</p>
+                                    <p className="form-control-plaintext">{userData.edad}</p>
                                 )}
                             </div>
                         </div>
@@ -155,11 +155,11 @@ const Profile = () => {
                                     <input
                                         type="text"
                                         className="form-control"
-                                        value={userData.address}
-                                        onChange={(e) => setUserData({ ...userData, address: e.target.value })}
+                                        value={userData.direccion}
+                                        onChange={(e) => setUserData({ ...userData, direccion: e.target.value })}
                                     />
                                 ) : (
-                                    <p className="form-control-plaintext">{userData.address}</p>
+                                    <p className="form-control-plaintext">{userData.direccion}</p>
                                 )}
                             </div>
                             <div className="mb-3">
@@ -168,11 +168,11 @@ const Profile = () => {
                                     <input
                                         type="tel"
                                         className="form-control"
-                                        value={userData.phone}
-                                        onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
+                                        value={userData.telefono}
+                                        onChange={(e) => setUserData({ ...userData, telefono: e.target.value })}
                                     />
                                 ) : (
-                                    <p className="form-control-plaintext">{userData.phone}</p>
+                                    <p className="form-control-plaintext">{userData.telefono}</p>
                                 )}
                             </div>
                         </div>

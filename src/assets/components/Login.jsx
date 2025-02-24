@@ -14,9 +14,6 @@ export const Login = () => {
       e.preventDefault();
       setError("");
 
-      // Log para debug
-      console.log('Intentando login con:', { email, password });
-
       try {
           const response = await fetch("https://backendtest-8l3s.onrender.com/login", {
               method: "POST",
@@ -27,35 +24,37 @@ export const Login = () => {
               credentials: 'omit',
               body: JSON.stringify({
                   email: email.toLowerCase().trim(),
-                  password: password.trim()
+                  password: password
               })
           });
 
-          console.log('Status de respuesta:', response.status);
           const data = await response.json();
           console.log('Datos de respuesta:', data);
 
-          if (!response.ok) {
-              throw new Error(data.message || "Usuario o contraseña incorrectos");
+          // Verificar si tenemos los datos necesarios
+          if (data && (data.token || data.user)) {
+              const userData = {
+                  // Asegurarse de que tengamos todos los campos necesarios
+                  user: data.user || data,
+                  token: data.token || ''
+              };
+
+              console.log('Datos procesados:', userData);
+              
+              // Guardar en el contexto y localStorage
+              login(userData.user, userData.token);
+              
+              // Redireccionar
+              navigate('/profile');
+              return;
           }
 
-          // Verificar la estructura de la respuesta
-          if (data.usuario && data.token) {  // Cambiado de data.user a data.usuario
-              login(data.usuario, data.token);
-              localStorage.setItem('token', data.token);
-              
-              // Redireccionar según el rol
-              if (data.usuario.rol === 'admin') {
-                  navigate("/admin");
-              } else {
-                  navigate("/profile");
-              }
-          } else {
-              throw new Error("Formato de respuesta inválido");
-          }
+          // Si llegamos aquí, algo salió mal
+          throw new Error(data.message || "Error en el formato de respuesta");
+          
       } catch (error) {
-          console.error('Error detallado:', error);
-          setError(error.message || "Error al iniciar sesión. Por favor, verifica tus credenciales.");
+          console.error('Error completo:', error);
+          setError("Error en el inicio de sesión. Verifica tus credenciales.");
       }
   };
 

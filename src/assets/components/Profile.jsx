@@ -75,6 +75,10 @@ const Profile = () => {
         fetchUserData();
     }, [isAuthenticated, logout, navigate]);
 
+    useEffect(() => {
+        console.log("Datos del usuario actualizados:", userData);
+    }, [userData]);
+
     if (loading) return (
         <div className="container mt-5 text-center">
             <div className="spinner-border text-primary" role="status">

@@ -7,29 +7,73 @@ const Profile = () => {
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (isAuthenticated) {
-            setLoading(true);
-            fetch("https://backendtest-8l3s.onrender.com/usuario", {
-                headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
-            })
-            .then(res => {
-                if (!res.ok) throw new Error("Error al cargar perfil");
-                return res.json();
-            })
-            .then(data => setUserData(data))
-            .catch(() => {
+        const fetchUserData = async () => {
+            if (!isAuthenticated) {
+                navigate("/login");
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem("token");
+                console.log("Token usado:", token);
+
+                const response = await fetch("https://backendtest-8l3s.onrender.com/users/profile", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Error al cargar el perfil");
+                }
+
+                const data = await response.json();
+                console.log("Datos recibidos:", data);
+
+                // Asegurar que los nombres de los campos coincidan
+                setUserData({
+                    name: data.username || data.name,
+                    email: data.email,
+                    age: data.edad || data.age,
+                    address: data.direccion || data.address,
+                    phone: data.telefono || data.phone,
+                    rol: data.rol
+                });
+            } catch (error) {
+                console.error("Error fetching profile:", error);
                 logout();
                 navigate("/login");
-            })
-            .finally(() => setLoading(false));
-        }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
     }, [isAuthenticated, logout, navigate]);
 
-    if (loading) return <div>Cargando...</div>;
-    if (!isAuthenticated || !userData) return <div>Acceso denegado. <button onClick={() => navigate("/login")}>Iniciar sesión</button></div>;
+    if (loading) return (
+        <div className="container mt-5 text-center">
+            <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Cargando...</span>
+            </div>
+        </div>
+    );
+
+    if (!isAuthenticated || !userData) return (
+        <div className="container mt-5 text-center">
+            <div className="alert alert-danger">
+                Acceso denegado. 
+                <button className="btn btn-link" onClick={() => navigate("/login")}>
+                    Iniciar sesión
+                </button>
+            </div>
+        </div>
+    );
 
     const handleEdit = async () => {
         if (isEditing) {

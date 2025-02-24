@@ -18,7 +18,7 @@ export const Login = () => {
       console.log('Intentando login con:', { email, password });
 
       try {
-          const response = await fetch("https://backendtest-8l3s.onrender.com/users/login", {
+          const response = await fetch("https://backendtest-8l3s.onrender.com/login", {
               method: "POST",
               headers: { 
                   "Content-Type": "application/json"

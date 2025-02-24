@@ -17,7 +17,11 @@ export const Login = () => {
       try {
           const response = await fetch("https://backendtest-8l3s.onrender.com/users", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: { 
+                  "Content-Type": "application/json"
+              },
+              mode: 'cors',
+              credentials: 'omit',
               body: JSON.stringify({ email, password })
           });
 
@@ -31,7 +35,7 @@ export const Login = () => {
           login(data.user, data.token);
           navigate("/profile");
       } catch (error) {
-          setError(error.message);
+          setError("Error al conectar con el servidor. Por favor, intenta más tarde.");
       }
   };
 

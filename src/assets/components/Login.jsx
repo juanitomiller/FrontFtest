@@ -15,7 +15,7 @@ export const Login = () => {
       setError("");
 
       try {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+          const response = await fetch("https://backendtest-8l3s.onrender.com/users", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ email, password })

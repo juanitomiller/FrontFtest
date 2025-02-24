@@ -1,64 +1,34 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from 'react';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(localStorage.getItem('token'));
 
-  // Verificar si el usuario está autenticado al cargar la página
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    const token = localStorage.getItem("token");
+    const login = (userData, userToken) => {
+        setUser(userData);
+        setToken(userToken);
+        localStorage.setItem('token', userToken);
+    };
 
-    if (storedUser && token) {
-        setUser(storedUser);
-        setIsAuthenticated(true);
+    const logout = () => {
+        setUser(null);
+        setToken(null);
+        localStorage.removeItem('token');
+    };
+
+    return (
+        <UserContext.Provider value={{ user, token, login, logout }}>
+            {children}
+        </UserContext.Provider>
+    );
+};
+
+export const useUser = () => {
+    const context = useContext(UserContext);
+    if (!context) {
+        throw new Error('useUser debe ser usado dentro de un UserProvider');
     }
-}, []);
-
-// Función para iniciar sesión
-const login = (userData, token) => {
-  setUser(userData);
-  setIsAuthenticated(true);
-  localStorage.setItem("user", JSON.stringify(userData));
-  localStorage.setItem("token", token);
+    return context;
 };
-
-// Función para cerrar sesión
-const logout = () => {
-  setUser(null);
-  setIsAuthenticated(false);
-  localStorage.removeItem("user");
-  localStorage.removeItem("token");
-};
-
-// Agregar verificación de token
-const verifyToken = async (token) => {
-  try {
-    const response = await fetch("https://beer-chile-api.onrender.com/verify-token", {
-      headers: { "Authorization": `Bearer ${token}` }
-    });
-    if (!response.ok) {
-      logout();
-    }
-  } catch (error) {
-    logout();
-  }
-};
-
-useEffect(() => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    verifyToken(token);
-  }
-}, []);
-
-  return (
-    <UserContext.Provider value={{ user, isAuthenticated, login, logout }}>
-      {children}
-    </UserContext.Provider>
-  );
-};
-
-export const useUser = () => useContext(UserContext);

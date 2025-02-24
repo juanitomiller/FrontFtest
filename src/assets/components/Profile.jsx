@@ -20,7 +20,7 @@ const Profile = () => {
                 const token = localStorage.getItem("token");
                 console.log("Token usado:", token);
 
-                const response = await fetch("https://backendtest-8l3s.onrender.com/users/profile", {
+                const response = await fetch("https://backendtest-8l3s.onrender.com/profile", {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`,

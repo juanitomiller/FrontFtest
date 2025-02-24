@@ -18,7 +18,22 @@ const Profile = () => {
 
             try {
                 const token = localStorage.getItem("token");
-                console.log("Token usado:", token);
+                const storedUser = JSON.parse(localStorage.getItem("user"));
+                console.log("Usuario almacenado:", storedUser);
+
+                if (storedUser) {
+                    // Usar directamente los datos almacenados
+                    setUserData({
+                        username: storedUser.username || '',
+                        email: storedUser.email || '',
+                        edad: storedUser.edad || '',
+                        direccion: storedUser.direccion || '',
+                        telefono: storedUser.telefono || '',
+                        rol: storedUser.rol || ''
+                    });
+                    setLoading(false);
+                    return;
+                }
 
                 const response = await fetch("https://backendtest-8l3s.onrender.com/usuario", {
                     method: "GET",
@@ -33,17 +48,21 @@ const Profile = () => {
                 }
 
                 const data = await response.json();
-                console.log("Datos recibidos:", data);
+                console.log("Datos recibidos de la API:", data);
 
-                // Mapear los datos correctamente
-                setUserData({
-                    username: data.username || '',      // nombre de usuario
-                    email: data.email || '',           // correo electrónico
-                    edad: data.edad || '',             // edad
-                    direccion: data.direccion || '',   // dirección
-                    telefono: data.telefono || '',     // teléfono
-                    rol: data.rol || ''                // rol
-                });
+                // Asegurarnos de que estamos usando los nombres correctos de las propiedades
+                const formattedData = {
+                    username: data.username || data.name || '',
+                    email: data.email || '',
+                    edad: data.edad || data.age || '',
+                    direccion: data.direccion || data.address || '',
+                    telefono: data.telefono || data.phone || '',
+                    rol: data.rol || data.role || ''
+                };
+
+                console.log("Datos formateados:", formattedData);
+                setUserData(formattedData);
+                
             } catch (error) {
                 console.error("Error fetching profile:", error);
                 logout();
@@ -115,68 +134,72 @@ const Profile = () => {
                     </h2>
                 </div>
                 <div className="card-body">
-                    <div className="row mb-3">
-                        <div className="col-md-6">
-                            <div className="mb-3">
-                                <label className="form-label fw-bold">Nombre:</label>
-                                {isEditing ? (
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={userData.username}
-                                        onChange={(e) => setUserData({ ...userData, username: e.target.value })}
-                                    />
-                                ) : (
-                                    <p className="form-control-plaintext">{userData.username}</p>
-                                )}
+                    {userData ? (
+                        <div className="row mb-3">
+                            <div className="col-md-6">
+                                <div className="mb-3">
+                                    <label className="form-label fw-bold">Nombre:</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={userData.username}
+                                            onChange={(e) => setUserData({ ...userData, username: e.target.value })}
+                                        />
+                                    ) : (
+                                        <p className="form-control-plaintext">{userData.username || 'No disponible'}</p>
+                                    )}
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label fw-bold">Correo Electrónico:</label>
+                                    <p className="form-control-plaintext">{userData.email}</p>
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label fw-bold">Edad:</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            value={userData.edad}
+                                            onChange={(e) => setUserData({ ...userData, edad: e.target.value })}
+                                        />
+                                    ) : (
+                                        <p className="form-control-plaintext">{userData.edad || 'No disponible'}</p>
+                                    )}
+                                </div>
                             </div>
-                            <div className="mb-3">
-                                <label className="form-label fw-bold">Correo Electrónico:</label>
-                                <p className="form-control-plaintext">{userData.email}</p>
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label fw-bold">Edad:</label>
-                                {isEditing ? (
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        value={userData.edad}
-                                        onChange={(e) => setUserData({ ...userData, edad: e.target.value })}
-                                    />
-                                ) : (
-                                    <p className="form-control-plaintext">{userData.edad}</p>
-                                )}
+                            <div className="col-md-6">
+                                <div className="mb-3">
+                                    <label className="form-label fw-bold">Dirección:</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={userData.direccion}
+                                            onChange={(e) => setUserData({ ...userData, direccion: e.target.value })}
+                                        />
+                                    ) : (
+                                        <p className="form-control-plaintext">{userData.direccion || 'No disponible'}</p>
+                                    )}
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label fw-bold">Teléfono:</label>
+                                    {isEditing ? (
+                                        <input
+                                            type="tel"
+                                            className="form-control"
+                                            value={userData.telefono}
+                                            onChange={(e) => setUserData({ ...userData, telefono: e.target.value })}
+                                        />
+                                    ) : (
+                                        <p className="form-control-plaintext">{userData.telefono || 'No disponible'}</p>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                        <div className="col-md-6">
-                            <div className="mb-3">
-                                <label className="form-label fw-bold">Dirección:</label>
-                                {isEditing ? (
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={userData.direccion}
-                                        onChange={(e) => setUserData({ ...userData, direccion: e.target.value })}
-                                    />
-                                ) : (
-                                    <p className="form-control-plaintext">{userData.direccion}</p>
-                                )}
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label fw-bold">Teléfono:</label>
-                                {isEditing ? (
-                                    <input
-                                        type="tel"
-                                        className="form-control"
-                                        value={userData.telefono}
-                                        onChange={(e) => setUserData({ ...userData, telefono: e.target.value })}
-                                    />
-                                ) : (
-                                    <p className="form-control-plaintext">{userData.telefono}</p>
-                                )}
-                            </div>
-                        </div>
-                    </div>
+                    ) : (
+                        <p>No hay datos disponibles</p>
+                    )}
                     <div className="d-grid gap-2">
                         <button 
                             className={`btn ${isEditing ? 'btn-success' : 'btn-primary'}`}

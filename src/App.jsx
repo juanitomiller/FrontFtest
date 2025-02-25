@@ -13,6 +13,7 @@ import ProductDetail from './assets/components/ProductDetail'; // Asegúrate de 
 import Profile from "./assets/components/Profile";
 import AgeVerification from './assets/components/AgeVerification';  // Corregida la ruta de importación
 import Newsletter from './assets/components/Newsletter';
+import Reviews from './assets/components/Reviews'; // Importar el nuevo componente Reviews
 
 const App = () => {
     // Mover isAgeVerified al principio y simplificar
@@ -140,6 +141,7 @@ const App = () => {
                                         />
                                     ))}
                                 </div>
+                                <Reviews /> {/* Agregar el componente Reviews aquí */}
                             </>
                         } />
                         <Route path="/login" element={<Login />} />

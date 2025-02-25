@@ -131,7 +131,7 @@ const Profile = () => {
     return (
         <div className="container mt-5">
             <div className="card shadow">
-                <div className="card-header bg-primary text-white text-center py-3">
+                <div className="card-header bg-dark text-white text-center py-3">
                     <h2 className="mb-0">
                         <i className="bi bi-person-circle me-2"></i>
                         Mi Perfil
@@ -206,13 +206,13 @@ const Profile = () => {
                     )}
                     <div className="d-grid gap-2">
                         <button 
-                            className={`btn ${isEditing ? 'btn-success' : 'btn-primary'}`}
+                            className={`btn ${isEditing ? 'btn-success' : 'btn-secondary'}`}
                             onClick={handleEdit}
                         >
                             {isEditing ? 'Guardar cambios' : 'Editar datos'}
                         </button>
                         <button 
-                            className="btn btn-danger"
+                            className="btn btn-warning"
                             onClick={handleLogout}
                         >
                             Cerrar sesión

@@ -1,135 +1,76 @@
 import React, { useState, useEffect } from 'react';
-import { useUser } from '../../context/UserContext';
-import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-    const { user, isAuthenticated, logout } = useUser();
-    const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
-            if (!isAuthenticated) {
-                navigate("/login");
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setIsAuthenticated(false);
+                setLoading(false);
                 return;
             }
 
             try {
-                const token = localStorage.getItem("token");
-                const storedUser = JSON.parse(localStorage.getItem("user"));
-                console.log("Usuario almacenado:", storedUser);
-
-                if (storedUser) {
-                    // Usar directamente los datos almacenados
-                    setUserData({
-                        username: storedUser.username || '',
-                        email: storedUser.email || '',
-                        edad: storedUser.edad || '',
-                        direccion: storedUser.direccion || '',
-                        telefono: storedUser.telefono || '',
-                        rol: storedUser.rol || ''
-                    });
-                    setLoading(false);
-                    return;
-                }
-
-                const response = await fetch("https://backendtest-8l3s.onrender.com/usuario", {
-                    method: "GET",
+                const response = await fetch('https://backendtest-8l3s.onrender.com/usuario', {
+                    method: 'GET',
                     headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
                     }
                 });
 
                 if (!response.ok) {
-                    throw new Error("Error al cargar el perfil");
+                    throw new Error('Error al obtener los datos del usuario');
                 }
 
-                const data = await response.json();
-                console.log("Datos recibidos de la API:", data);
-
-                // Asegurarnos de que estamos usando los nombres correctos de las propiedades
-                const formattedData = {
-                    username: data.username || data.name || '',
-                    email: data.email || '',
-                    edad: data.edad || data.age || '',
-                    direccion: data.direccion || data.address || '',
-                    telefono: data.telefono || data.phone || '',
-                    rol: data.rol || data.role || ''
-                };
-
-                console.log("Datos formateados:", formattedData);
-                setUserData(formattedData);
-                
-            } catch (error) {
-                console.error("Error fetching profile:", error);
-                logout();
-                navigate("/login");
+                const data = await response.json(); // { username, email, direccion, telefono }
+                setUserData(data[0]); // Solo se espera un usuario
+                setIsAuthenticated(true); // Si se obtiene el usuario, se considera autenticado
+            } catch (err) {
+                setError(err.message);
+                setIsAuthenticated(false);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchUserData();
-    }, [isAuthenticated, logout, navigate]);
+    }, []);
 
-    useEffect(() => {
-        console.log("Datos del usuario actualizados:", userData);
-    }, [userData]);
-
-    if (loading) return (
-        <div className="container mt-5 text-center">
-            <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Cargando...</span>
-            </div>
-        </div>
-    );
-
-    if (!isAuthenticated || !userData) return (
-        <div className="container mt-5 text-center">
-            <div className="alert alert-danger">
-                Acceso denegado. 
-                <button className="btn btn-link" onClick={() => navigate("/login")}>
-                    Iniciar sesión
-                </button>
-            </div>
-        </div>
-    );
-
-    const handleEdit = async () => {
-        if (isEditing) {
-            try {
-                const response = await fetch("https://backendtest-8l3s.onrender.com/usuario", {
-                    method: "PUT",
-                    headers: { 
-                        "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(userData)
-                });
-
-                if (!response.ok) {
-                    throw new Error("Error al actualizar el perfil");
-                }
-
-                alert("Perfil actualizado exitosamente");
-            } catch (error) {
-                alert(error.message);
-                return;
-            }
-        }
+    const handleEdit = () => {
         setIsEditing(!isEditing);
     };
 
     const handleLogout = () => {
-        logout();
-        navigate("/login");
+        localStorage.removeItem('token');
+        window.location.reload();
     };
 
+    if (loading) {
+        return <div className="container mt-5"><h2>Cargando...</h2></div>;
+    }
+
+    if (error) {
+        return <div className="container mt-5"><h2>Error: {error}</h2></div>;
+    }
+
+    if (!isAuthenticated) {
+        return (
+            <div className="container mt-5">
+                <h2>No tienes acceso al perfil</h2>
+                <p>Por favor, inicia sesión para ver tu perfil.</p>
+            </div>
+        );
+    }
+
     return (
-        <div className="container mt-5">
+        <div className="container mt-5 fondo">
             <div className="card shadow">
                 <div className="card-header bg-dark text-white text-center py-3">
                     <h2 className="mb-0">
@@ -157,19 +98,6 @@ const Profile = () => {
                                 <div className="mb-3">
                                     <label className="form-label fw-bold">Correo Electrónico:</label>
                                     <p className="form-control-plaintext">{userData.email}</p>
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label fw-bold">Edad:</label>
-                                    {isEditing ? (
-                                        <input
-                                            type="number"
-                                            className="form-control"
-                                            value={userData.edad}
-                                            onChange={(e) => setUserData({ ...userData, edad: e.target.value })}
-                                        />
-                                    ) : (
-                                        <p className="form-control-plaintext">{userData.edad || 'No disponible'}</p>
-                                    )}
                                 </div>
                             </div>
                             <div className="col-md-6">
